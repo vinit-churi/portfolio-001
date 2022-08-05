@@ -41,3 +41,56 @@ let typed = new Typed(".typing", {
   BackSpeed: 60,
   loop: true,
 });
+
+const nav = document.querySelector(".nav");
+navList = nav?.querySelectorAll("li");
+const asideNav = document.querySelector(".aside");
+
+const navToggler = document.querySelector(".nav-toggler");
+let totalNavList = navList.length;
+allSection = document.querySelectorAll(".section");
+totalSection = allSection.length;
+for (let i = 0; i < totalNavList; i++) {
+  const a = navList[i].querySelector("a");
+  a.addEventListener("click", function () {
+    console.log("event listener is running good");
+    navToggler.classList.remove("open");
+    asideNav?.classList.remove("open-nav");
+    for (let j = 0; j < totalNavList; j++) {
+      console.log("the loop ran");
+      let currentSection = navList[j]
+        .querySelector("a")
+        .getAttribute("href")
+        .replace(/[^a-zA-Z0-9 ]/g, "");
+      if (
+        document
+          .getElementById(currentSection)
+          .classList.contains("previous-active")
+      ) {
+        document
+          // console.log(navList[j] + "is this running");
+          .getElementById(currentSection)
+          .classList.remove("previous-active");
+      }
+      if (navList[j].querySelector("a").classList.contains("active")) {
+        document
+          .getElementById(currentSection)
+          .classList.add("previous-active");
+      }
+      navList[j].querySelector("a").classList.remove("active");
+      document.getElementById(currentSection)?.classList.remove("active");
+    }
+    this.classList.add("active");
+    let currentSection = this.getAttribute("href").replace(
+      /[^a-zA-Z0-9 ]/g,
+      ""
+    );
+    document.getElementById(currentSection)?.classList.add("active");
+  });
+}
+
+navToggler?.addEventListener("click", function () {
+  this.classList.toggle("open");
+  asideNav?.classList.toggle("open-nav");
+  console.log("open working");
+});
